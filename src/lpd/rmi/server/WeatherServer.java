@@ -31,7 +31,7 @@ public class WeatherServer {
             System.err.println("Error de comunicacion: " + e.toString());
             System.exit(1);
         } catch (Exception e) {
-            System.err.println("Excepcion en ServidorEco:");
+            System.err.println("Excepcion en WeatherServer:");
             e.printStackTrace();
             System.exit(1);
         }
