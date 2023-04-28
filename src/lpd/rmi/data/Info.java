@@ -1,13 +1,16 @@
 package lpd.rmi.data;
 
-public final class Info {
+import java.io.Serializable;
 
+public final class Info implements Serializable {
+
+    private static final long serialVersionUID = -2286013604527839998L;
     private Horoscope horoscope;
     private Weather weather;
     
-    public Info(Horoscope horoscope, Weather weather) {
-        this.horoscope = horoscope;
+    public Info(Weather weather, Horoscope horoscope) {
         this.weather = weather;
+        this.horoscope = horoscope;
     }
 
     public Horoscope getHoroscope() {
@@ -20,7 +23,7 @@ public final class Info {
 
     @Override
     public String toString() {
-        return "Info [horoscope=" + horoscope + ", weather=" + weather + "]";
+        return "Info [weather=" + weather + ", horoscope=" + horoscope + "]";
     }
     
 }
