@@ -34,36 +34,40 @@ public class HoroscopeServiceImpl extends UnicastRemoteObject implements Horosco
 
     private static final Sign[] signs = Sign.values();
     
-    private final Horoscope[] horoscopeCache = new Horoscope[7];
+    private final Horoscope[][] horoscopeCache = new Horoscope[7][signs.length];
 
     protected HoroscopeServiceImpl() throws RemoteException {
         super();
     }
 
     @Override
-    public Horoscope getHoroscope(LocalDate date) throws RemoteException {
+    public Horoscope getHoroscope(LocalDate date, Sign sign) throws RemoteException {
         Horoscope horoscope = null;
+        
+        if (date == null || sign == null)
+            return null;
+        
         int day = date.compareTo(LocalDate.now());
+        int signNumber = sign.ordinal();
         
         if (day < 0 || day >= horoscopeCache.length)
             return null;
 
         synchronized (horoscopeCache) {
-            if (horoscopeCache[day] == null)
-                horoscopeCache[day] = genHoroscope(day);
-            horoscope = horoscopeCache[day];
+            if (horoscopeCache[day][signNumber] == null)
+                horoscopeCache[day][signNumber] = genHoroscope(day, sign);
+            horoscope = horoscopeCache[day][signNumber];
         }
         
         return horoscope;
     }
 
-    private Horoscope genHoroscope(int day) {
+    private Horoscope genHoroscope(int day, Sign sign) {
         LocalDate today = LocalDate.now();
         LocalDate date = today.plusDays(day);
         ThreadLocalRandom random = ThreadLocalRandom.current();
         String[] range = ranges[random.nextInt(0, ranges.length)];
         String mood = moods[random.nextInt(0, moods.length)];
-        Sign sign = signs[random.nextInt(0, signs.length)];
         
         return new Horoscope(sign, date, range, mood);
     }
