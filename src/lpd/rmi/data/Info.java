@@ -5,19 +5,19 @@ import java.io.Serializable;
 public final class Info implements Serializable {
 
     private static final long serialVersionUID = -2286013604527839998L;
-    private Horoscope horoscope;
-    private Weather weather;
+    private Horoscopo horoscope;
+    private Clima weather;
     
-    public Info(Weather weather, Horoscope horoscope) {
+    public Info(Clima weather, Horoscopo horoscope) {
         this.weather = weather;
         this.horoscope = horoscope;
     }
 
-    public Horoscope getHoroscope() {
+    public Horoscopo getHoroscope() {
         return horoscope;
     }
 
-    public Weather getWeather() {
+    public Clima getWeather() {
         return weather;
     }
 
