@@ -5,10 +5,10 @@ import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDate;
 import java.util.concurrent.ThreadLocalRandom;
 
-import lpd.rmi.data.Horoscope;
-import lpd.rmi.data.Sign;
+import lpd.rmi.data.Horoscopo;
+import lpd.rmi.data.Signo;
 
-public class HoroscopeServiceImpl extends UnicastRemoteObject implements HoroscopeService {
+public class ServicioHoroscopoImpl extends UnicastRemoteObject implements ServicioHoroscopo {
 
     private static final long serialVersionUID = 3030900350933750920L;
 
@@ -26,50 +26,50 @@ public class HoroscopeServiceImpl extends UnicastRemoteObject implements Horosco
             "El exceso de actividades laborales te absorbe de tal forma que ¡te olvidas de quienes te rodean! Pero el amor y la pasión te ofrecen sus mejores goces.",
             "Ocúpate de organizar los ingresos, de tal manera que puedas cumplir con tus responsabilidades. Evita gastos superfluos." };
 
-    private static final String[][] ranges = {
+    private static final String[][] rangos = {
             { "03-21", "04-19" }, { "04-20", "05-20" }, { "05-21", "06-21" }, { "06-22", "07-22" },
             { "07-23", "08-22" }, { "08-23", "09-22" }, { "09-23", "10-22" }, { "10-23", "11-22" },
             { "11-23", "12-21" }, { "12-22", "01-19" }, { "01-20", "02-18" }, { "02-19", "03-20" }
             };
 
-    private static final Sign[] signs = Sign.values();
+    private static final Signo[] signos = Signo.values();
     
-    private final Horoscope[][] horoscopeCache = new Horoscope[7][signs.length];
+    private final Horoscopo[][] cacheHoroscopo = new Horoscopo[7][signos.length];
 
-    protected HoroscopeServiceImpl() throws RemoteException {
+    protected ServicioHoroscopoImpl() throws RemoteException {
         super();
     }
 
     @Override
-    public Horoscope getHoroscope(LocalDate date, Sign sign) throws RemoteException {
-        Horoscope horoscope = null;
+    public Horoscopo obtenerHoroscopo(LocalDate fecha, Signo signo) throws RemoteException {
+        Horoscopo horoscope = null;
         
-        if (date == null || sign == null)
+        if (fecha == null || signo == null)
             return null;
         
-        int day = date.compareTo(LocalDate.now());
-        int signNumber = sign.ordinal();
+        int day = fecha.compareTo(LocalDate.now());
+        int signNumber = signo.ordinal();
         
-        if (day < 0 || day >= horoscopeCache.length)
+        if (day < 0 || day >= cacheHoroscopo.length)
             return null;
 
-        synchronized (horoscopeCache) {
-            if (horoscopeCache[day][signNumber] == null)
-                horoscopeCache[day][signNumber] = genHoroscope(day, sign);
-            horoscope = horoscopeCache[day][signNumber];
+        synchronized (cacheHoroscopo) {
+            if (cacheHoroscopo[day][signNumber] == null)
+                cacheHoroscopo[day][signNumber] = generarHoroscopo(day, signo);
+            horoscope = cacheHoroscopo[day][signNumber];
         }
         
         return horoscope;
     }
 
-    private Horoscope genHoroscope(int day, Sign sign) {
+    private Horoscopo generarHoroscopo(int day, Signo sign) {
         LocalDate today = LocalDate.now();
         LocalDate date = today.plusDays(day);
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        String[] range = ranges[random.nextInt(0, ranges.length)];
+        String[] range = rangos[random.nextInt(0, rangos.length)];
         String mood = moods[random.nextInt(0, moods.length)];
         
-        return new Horoscope(sign, date, range, mood);
+        return new Horoscopo(sign, date, range, mood);
     }
 
 }
