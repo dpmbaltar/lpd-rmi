@@ -5,25 +5,25 @@ import java.io.Serializable;
 public final class Info implements Serializable {
 
     private static final long serialVersionUID = -2286013604527839998L;
-    private Horoscopo horoscope;
-    private Clima weather;
+    private Horoscopo horoscopo;
+    private Clima clima;
     
-    public Info(Clima weather, Horoscopo horoscope) {
-        this.weather = weather;
-        this.horoscope = horoscope;
+    public Info(Clima clima, Horoscopo horoscopo) {
+        this.clima = clima;
+        this.horoscopo = horoscopo;
     }
 
-    public Horoscopo getHoroscope() {
-        return horoscope;
+    public Horoscopo getHoroscopo() {
+        return horoscopo;
     }
 
-    public Clima getWeather() {
-        return weather;
+    public Clima getClima() {
+        return clima;
     }
 
     @Override
     public String toString() {
-        return "Info [weather=" + weather + ", horoscope=" + horoscope + "]";
+        return "Info [clima=" + clima + ", horoscopo=" + horoscopo + "]";
     }
     
 }
