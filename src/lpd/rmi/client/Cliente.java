@@ -5,20 +5,20 @@ import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
-import lpd.rmi.data.Sign;
+import lpd.rmi.data.Signo;
 import lpd.rmi.data.Info;
-import lpd.rmi.server.InfoService;
+import lpd.rmi.server.ServicioInfo;
 
-public class Client {
+public class Cliente {
 
     private static String host = "127.0.0.1";
     private static int port = 24000;
 
     private static void parseArgs(String args[]) {
         if (args.length < 2) {
-            System.out.println("Uso: Client IP Puerto");
+            System.out.println("Uso: Cliente IP Puerto");
             System.out.println("Ejecutando con valores por defecto:");
-            System.out.println(String.format("Client %s %d", host, port));
+            System.out.println(String.format("Cliente %s %d", host, port));
         } else {
             host = args[0];
             port = Integer.valueOf(args[1]);
@@ -34,7 +34,7 @@ public class Client {
             String signInput = null;
             Scanner scanner = new Scanner(System.in);
             String name = String.format("//%s:%s/Info", host, port);
-            InfoService infoService = (InfoService) Naming.lookup(name);
+            ServicioInfo infoService = (ServicioInfo) Naming.lookup(name);
 
             do {
                 System.out.println("Escribir fecha:");
@@ -43,14 +43,14 @@ public class Client {
                 signInput = scanner.nextLine();
 
                 LocalDate date = LocalDate.parse(dateInput);
-                Sign sign = Sign.valueOf(signInput.toUpperCase());
+                Signo sign = Signo.valueOf(signInput.toUpperCase());
 
                 if (date == null)
                     System.out.println("Fecha incorrecta");
                 if (sign == null)
                     System.out.println("Signo desconocido");
 
-                Info info = infoService.getInfo(date, sign);
+                Info info = infoService.obtenerInfo(date, sign);
                 System.out.println(info);
 
                 System.out.println("Presionar Entrar para otra consulta / N para salir");
@@ -68,7 +68,7 @@ public class Client {
         } catch (RemoteException e) {
             System.err.println("Error de comunicacion: " + e.toString());
         } catch (Exception e) {
-            System.err.println("Excepcion en Client:");
+            System.err.println("Excepcion en Cliente:");
             e.printStackTrace();
         }
 
