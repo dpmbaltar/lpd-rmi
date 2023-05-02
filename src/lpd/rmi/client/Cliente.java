@@ -51,7 +51,9 @@ public class Cliente {
                     System.out.println("Signo desconocido");
 
                 Info info = infoService.obtenerInfo(date, sign);
-                System.out.println(info);
+                System.out.println("Respuesta:");
+                System.out.println(info.getClima());
+                System.out.println(info.getHoroscopo());
 
                 System.out.println("Presionar Entrar para otra consulta / N para salir");
                 switch (System.in.read()) {
