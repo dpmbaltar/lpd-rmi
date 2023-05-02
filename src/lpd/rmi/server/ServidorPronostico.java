@@ -16,6 +16,7 @@ public class ServidorPronostico {
         } else {
             host = args[0];
             port = Integer.valueOf(args[1]);
+            System.out.println(String.format("Ejecutando ServidorCentral %s %d", host, port));
         }
     }
 
